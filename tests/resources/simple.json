@@ -1,0 +1,8 @@
+{
+	"blocks": [
+		{
+			"type": ".paragraph",
+			"text": "Hello world"
+		}
+	]
+}
