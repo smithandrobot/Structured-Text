@@ -1,4 +1,5 @@
 {
+	"scope": "com.structured_text.core",
 	"blocks": [
 		{
 			"type": ".container",
@@ -109,5 +110,3 @@
 		}
 	]
 }
-
-<p>Click <a href="#">here</a>.</p>

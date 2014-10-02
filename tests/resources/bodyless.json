@@ -1,4 +1,5 @@
 {
+	"scope": "com.structured_text.core",
 	"blocks": [
 		{
 			"type": ".paragraph",
