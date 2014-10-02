@@ -1,0 +1,18 @@
+{
+    "name": "smithandrobot/structured-text",
+    "require-dev": {
+        "phpunit/phpunit": "~4.2"
+    },
+    "authors": [
+        {
+            "name": "Jonathan Bennett",
+            "email": "jonathan@jbennett.me"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "StructuredText\\": "src/"
+        }
+    }
+}
