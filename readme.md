@@ -36,7 +36,7 @@ The bocks available in the com.structured_text.core namespace are:
 - list
 - container (div?)
 - image
-
+- table
 
 The annotations available in the com.structured_text.core namespace are:
 
