@@ -4,11 +4,20 @@ require_once dirname(__FILE__) . '/../src/STHtmlParagraphBlockParser.inc';
 class STHtmlParagraphBlockParserTest extends PHPUnit_Framework_TestCase {
 
   function testSimpleParagraph() {
-    $dom = new SimpleXMLElement("<p>Hello</p>");
-    $result = STHtmlParagraphBlockParser::createBlockFromDom($dom);
+    $node = $this->getNodeForHTML('<p>Hello</p>', 'p');
+    $result = STHtmlParagraphBlockParser::createBlockFromDom($node);
     $block = new STBlock(".paragraph", "Hello");
 
     $this->assertEqualBlocks($block, $result);
+  }
+
+  function getNodeForHTML($html, $tag) {
+    $dom = new DOMDocument();
+    $dom->loadHTML($html);
+    $xpath = new DOMXPath($dom);
+    $nodes = $xpath->query('//'. $tag);
+
+    return $nodes->item(0);
   }
 
   function assertEqualBlocks($block1, $block2) {

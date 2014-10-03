@@ -12,8 +12,17 @@ class STHtmlParser {
 
     if (strlen($content)) {
       $dom = $this->domForContent($content);
-      $block = $this->parseDomElement($dom);
-      $document->addBlock($block);
+      $xpath = new DOMXPath($dom);
+      $bodies = $xpath->query('//body');
+
+      foreach($bodies as $body) {
+        foreach ($body->childNodes as $child) {
+          $block = $this->parseDomElement($child);
+          $document->addBlock($block);
+        }
+      }
+
+
     }
 
     return $document;
@@ -21,7 +30,7 @@ class STHtmlParser {
 
   function parseDomElement($element) {
     $handler = static::getDomParserForElement($element);
-    if (!$handler) { throw new Exception("Cannot parse: " . $element); }
+    if (!$handler) { throw new Exception("Cannot parse: " . $element->textContent); }
 
     return $handler::createBlockFromDom($element);
   }
@@ -37,6 +46,8 @@ class STHtmlParser {
   }
 
   function domForContent($content) {
-    return new SimpleXMLElement($content);
+    $document = new DOMDocument();
+    $document->loadHTML($content);
+    return $document;
   }
 }
