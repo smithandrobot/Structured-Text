@@ -3,7 +3,7 @@ require 'vendor/autoload.php';
 use StructuredText\Annotation;
 use StructuredText\HtmlParser\Blocks\ParagraphBlockParser;
 
-class STHtmlBoldAnnotationParserTest extends PHPUnit_Framework_TestCase {
+class BoldAnnotationParserTest extends PHPUnit_Framework_TestCase {
 
   function testInit() {
     $html = "<p>hello <b>world</b></p>";

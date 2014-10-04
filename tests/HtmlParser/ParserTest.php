@@ -3,7 +3,7 @@ require 'vendor/autoload.php';
 use StructuredText\Block;
 use StructuredText\HtmlParser\Parser;
 
-class HtmlParserTest extends PHPUnit_Framework_TestCase {
+class ParserTest extends PHPUnit_Framework_TestCase {
 
   function testCanCreateAParser() {
     $parser = new Parser();

@@ -3,7 +3,7 @@ require 'vendor/autoload.php';
 use StructuredText\Block;
 use StructuredText\HtmlParser\Blocks\ParagraphBlockParser;
 
-class STHtmlParagraphBlockParserTest extends PHPUnit_Framework_TestCase {
+class ParagraphBlockParserTest extends PHPUnit_Framework_TestCase {
 
   function testSimpleParagraph() {
     $node = $this->getNodeForHTML('<p>Hello</p>', 'p');
