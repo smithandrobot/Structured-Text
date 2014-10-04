@@ -4,7 +4,7 @@ Structured Text provides a simple, extensible and transportable format for conte
 
 ```json
 {
-	blocks: {
+	"blocks": {
 		"type": ".paragraph",
 		"text": "Hello world!",
 		"annotations": [
