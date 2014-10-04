@@ -1,33 +1,34 @@
 <?php
-require_once dirname(__FILE__) . '/../src/STHtmlParser.inc';
-//require_once dirname(__FILE__) . '/../src/STHtmlParagraphBlockParser.inc';
+require 'vendor/autoload.php';
+use StructuredText\Block;
+use StructuredText\HtmlParser\Parser;
 
-class STHtmlParserTest extends PHPUnit_Framework_TestCase {
+class HtmlParserTest extends PHPUnit_Framework_TestCase {
 
   function testCanCreateAParser() {
-    $parser = new STHtmlParser();
+    $parser = new Parser();
     $this->assertNotNull($parser);
   }
 
   function testParsesABlankString() {
-    $parser = new STHtmlParser();
+    $parser = new Parser();
     $result = $parser->parse("");
 
     $this->assertNotNull($result);
   }
 
   function testParsesParagraph() {
-    $parser = new STHtmlParser();
+    $parser = new Parser();
     $document = $parser->parse("<p>Hello World</p>");
-    $block = new STBlock(".paragraph", "Hello World");
+    $block = new Block(".paragraph", "Hello World");
 
     $this->assertEqualBlocks($block, $document->blocks[0]);
   }
 
 
   function assertEqualBlocks($block1, $block2) {
-    $this->assertInstanceOf('STBlock', $block1);
-    $this->assertInstanceOf('STBlock', $block2);
+    $this->assertInstanceOf('StructuredText\Block', $block1);
+    $this->assertInstanceOf('StructuredText\Block', $block2);
 
     $this->assertEquals($block1->type(), $block2->type(), "Block types do not match");
     $this->assertEquals($block1->text(), $block2->text(), "Block text does not match");

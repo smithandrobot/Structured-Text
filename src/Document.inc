@@ -1,11 +1,11 @@
-<?php
+<?php namespace StructuredText;
 
-class STDocument {
+class Document {
 
   var $scope;
   var $blocks;
 
-  public function STDocument($scope = "com.structured_text.core") {
+  public function __construct($scope = "com.structured_text.core") {
     $this->scope = $scope;
     $this->blocks = array();
   }

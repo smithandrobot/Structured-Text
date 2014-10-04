@@ -1,15 +1,13 @@
 <?php
-require_once 'STHtmlBlockParser.inc';
-require_once 'STHtmlParser.inc';
-require_once 'STBlock.inc';
+namespace StructuredText\HtmlParser\Blocks;
 
-class STHtmlParagraphBlockParser implements STHtmlBlockParser {
+class ParagraphBlockParser implements BlockParser {
 
-  static function canParseDomElement(DOMNode $dom) {
+  static function canParseDomElement(\DOMNode $dom) {
     return $dom->nodeName === 'p';
   }
 
-  static function createBlockFromDom(DOMNode $dom) {
+  static function createBlockFromDom(\DOMNode $dom) {
     $type = ".paragraph";
     $text = $dom->textContent;
     $attributes = self::findAttributes($dom);
@@ -22,8 +20,7 @@ class STHtmlParagraphBlockParser implements STHtmlBlockParser {
       print_r('**'. $child->textContent);
     }
 
-    $block = new STBlock($type, $text, $attributes, $annotations, $children);
-
+    $block = new \StructuredText\Block($type, $text, $attributes, $annotations, $children);
     return $block;
   }
 
@@ -41,4 +38,4 @@ class STHtmlParagraphBlockParser implements STHtmlBlockParser {
 
 }
 
-STHtmlParser::addHandler(STHtmlParagraphBlockParser);
+\StructuredText\HtmlParser\Parser::addHandler('StructuredText\HtmlParser\Blocks\ParagraphBlockParser');

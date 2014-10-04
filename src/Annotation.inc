@@ -1,13 +1,14 @@
 <?php
+namespace StructuredText;
 
-class STAnnotation {
+class Annotation {
 
   protected $type;
   protected $start;
   protected $length;
   protected $attributes;
 
-  public function STAnnotation($type, $start, $length, $attributes = array()) {
+  public function __construct($type, $start, $length, $attributes = array()) {
     $this->type = $type;
     $this->start = $start;
     $this->length = $length;

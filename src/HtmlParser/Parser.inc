@@ -1,6 +1,8 @@
 <?php
+namespace StructuredText\HtmlParser;
+use StructuredText\Document;
 
-class STHtmlParser {
+class Parser {
   static protected $handlers = array();
 
   public static function addHandler($handler) {
@@ -8,11 +10,11 @@ class STHtmlParser {
   }
 
   public function parse($content) {
-    $document = new STDocument();
+    $document = new Document();
 
     if (strlen($content)) {
       $dom = $this->domForContent($content);
-      $xpath = new DOMXPath($dom);
+      $xpath = new \DOMXPath($dom);
       $bodies = $xpath->query('//body');
 
       foreach($bodies as $body) {
@@ -46,7 +48,7 @@ class STHtmlParser {
   }
 
   function domForContent($content) {
-    $document = new DOMDocument();
+    $document = new \DOMDocument();
     $document->loadHTML($content);
     return $document;
   }

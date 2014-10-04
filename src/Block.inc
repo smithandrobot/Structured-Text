@@ -1,13 +1,13 @@
-<?php
+<?php namespace StructuredText;
 
-class STBlock {
+class Block {
   protected $type;
   protected $text;
   protected $attributes;
   protected $annotations;
   protected $children;
 
-  public function STBlock($type = null, $text = "", $attributes = array(), $annotations = array(), $children = array()) {
+  public function __construct($type = null, $text = "", $attributes = array(), $annotations = array(), $children = array()) {
     $this->type = $type;
     $this->text = $text;
     $this->attributes = $attributes;

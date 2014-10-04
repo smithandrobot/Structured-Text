@@ -1,30 +1,31 @@
 <?php
-require_once dirname(__FILE__) . '/../src/STHtmlParagraphBlockParser.inc';
+require 'vendor/autoload.php';
+use StructuredText\Block;
 
-class STBlockTest extends PHPUnit_Framework_TestCase {
+class BlockTest extends PHPUnit_Framework_TestCase {
 
   function testCanInit() {
-    $block = new STBlock();
+    $block = new Block();
     $this->assertNotNull($block);
   }
 
   function testStoresType() {
-    $block = new STBlock("foobar");
+    $block = new Block("foobar");
     $this->assertEquals("foobar", $block->type());
   }
 
   function testBlockDoesntHaveAttributes() {
-    $block = new STBlock();
+    $block = new Block();
     $this->assertCount(0, $block->attributes());
   }
 
   function testBlockDoesntHaveAnnotations() {
-    $block = new STBlock();
+    $block = new Block();
     $this->assertCount(0, $block->annotations());
   }
 
   function testBlockDoesntHaveChildren() {
-    $block = new STBlock();
+    $block = new Block();
     $this->assertCount(0, $block->children());
   }
 

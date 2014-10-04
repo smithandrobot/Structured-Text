@@ -1,12 +1,14 @@
 <?php
-require_once dirname(__FILE__) . '/../src/STHtmlParagraphBlockParser.inc';
+require 'vendor/autoload.php';
+use StructuredText\Block;
+use StructuredText\HtmlParser\Blocks\ParagraphBlockParser;
 
 class STHtmlParagraphBlockParserTest extends PHPUnit_Framework_TestCase {
 
   function testSimpleParagraph() {
     $node = $this->getNodeForHTML('<p>Hello</p>', 'p');
-    $result = STHtmlParagraphBlockParser::createBlockFromDom($node);
-    $block = new STBlock(".paragraph", "Hello");
+    $result = ParagraphBlockParser::createBlockFromDom($node);
+    $block = new Block(".paragraph", "Hello");
 
     $this->assertEqualBlocks($block, $result);
   }
