@@ -36,11 +36,11 @@ class Block {
   }
 
   public function isEqual($other) {
-    return ($this->type == $other->type) &&
-    ($this->text == $other->text) &&
-    ($this->attributes() == $other->attributes()) &&
-    ($this->annotations() == $other->annotations()) &&
-    ($this->children() == $other->children());
+    return ($this->type == $other->type)
+      && ($this->text == $other->text)
+      && ($this->attributes() == $other->attributes())
+      && ($this->annotations() == $other->annotations())
+      && ($this->children() == $other->children());
   }
 
 
