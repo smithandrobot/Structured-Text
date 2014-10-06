@@ -12,8 +12,12 @@ class BoldAnnotationParser { //implements AnnotationParser {
     return $node->nodeName === 'b';
   }
 
-  public static function createAnnotationFromNode(\DOMNode $dom, $parser) {
+  public static function createAnnotationFromNode(\DOMNode $dom, $offset = 0, $parser = null) {
+    $type = '.b';
+    $start = $offset + 0;
+    $length = strlen($dom->textContent);
 
+    return new \StructuredText\Annotation($type, $start, $length);
   }
 
 }

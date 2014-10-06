@@ -19,20 +19,47 @@ class BoldAnnotationParserTest extends PHPUnit_Framework_TestCase {
 //    $this->assertTrue($annotation->isEqual($annotations[0]));
 //  }
 
-  function testActivates() {
+  function testParsingAvailability() {
+    $node = $this->getNode();
+
+    $this->assertTrue(BoldAnnotationParser::canParseNode($node));
+  }
+
+  function testParserRegistration() {
     $parser = new Parser();
     $parser->addAnnotationHandler(BoldAnnotationParser::class);
-
-    $html = "<p>hello <b>world</b></p>";
-    $node = $this->getNodeForHTML($html, 'b');
-
+    $node = $this->getNode();
 
     $handlerClass = $parser->getAnnotationParserForElement($node);
     $handler = new $handlerClass;
     $this->assertInstanceOf('StructuredText\HtmlParser\Annotations\BoldAnnotationParser', $handler);
   }
 
-  function getNodeForHTML($html, $tag) {
+  function testParsingBlankString() {
+    $node = $this->getNode('<b></b>');
+    $test = BoldAnnotationParser::createAnnotationFromNode($node);
+    $expected = new Annotation('.b', 0, 0);
+
+    $this->assertTrue($expected->isEqual($test));
+  }
+
+  function testParsingString() {
+    $node = $this->getNode();
+    $test = BoldAnnotationParser::createAnnotationFromNode($node);
+    $expected = new Annotation('.b', 0, 11);
+
+    $this->assertTrue($expected->isEqual($test));
+  }
+
+  function testParsingStringAtOffset() {
+    $node = $this->getNode();
+    $test = BoldAnnotationParser::createAnnotationFromNode($node, 5);
+    $expected = new Annotation('.b', 5, 11);
+
+    $this->assertTrue($expected->isEqual($test));
+  }
+
+  function getNode($html = '<b>Hello World</b>', $tag = 'b') {
     $dom = new DOMDocument();
     $dom->loadHTML($html);
     $xpath = new DOMXPath($dom);
