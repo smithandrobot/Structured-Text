@@ -1,19 +1,35 @@
 <?php
 require 'vendor/autoload.php';
 use StructuredText\Annotation;
+use StructuredText\HtmlParser\Parser;
 use StructuredText\HtmlParser\Blocks\ParagraphBlockParser;
+use StructuredText\HtmlParser\Annotations\BoldAnnotationParser;
 
 class BoldAnnotationParserTest extends PHPUnit_Framework_TestCase {
 
-  function testInit() {
+//  function xtestInit() {
+//    $html = "<p>hello <b>world</b></p>";
+//    $node = $this->getNodeForHTML($html, 'p');
+//    $parser = new Parser();
+//
+//    $annotations = $parser->findAnnotations($node);
+//    $annotation = new Annotation(".bold", 6, 5);
+//
+//    $this->assertCount(1, $annotations);
+//    $this->assertTrue($annotation->isEqual($annotations[0]));
+//  }
+
+  function testActivates() {
+    $parser = new Parser();
+    $parser->addAnnotationHandler(BoldAnnotationParser::class);
+
     $html = "<p>hello <b>world</b></p>";
-    $node = $this->getNodeForHTML($html, 'p');
+    $node = $this->getNodeForHTML($html, 'b');
 
-    $block = ParagraphBlockParser::createBlockFromDom($node);
-    $annotations = $block->annotations();
-    $annotation = new Annotation(".bold", 6, 5);
 
-    $this->assertEqualAnnotations($annotation, $annotations[0]);
+    $handlerClass = $parser->getAnnotationParserForElement($node);
+    $handler = new $handlerClass;
+    $this->assertInstanceOf('StructuredText\HtmlParser\Annotations\BoldAnnotationParser', $handler);
   }
 
   function getNodeForHTML($html, $tag) {
@@ -23,14 +39,5 @@ class BoldAnnotationParserTest extends PHPUnit_Framework_TestCase {
     $nodes = $xpath->query('//'. $tag);
 
     return $nodes->item(0);
-  }
-
-  function assertEqualAnnotations($annotation1, $annotation2) {
-    $this->assertInstanceOf('StructuredText\Annotation', $annotation1);
-    $this->assertInstanceOf('StructuredText\Annotation', $annotation2);
-    $this->assertEquals($annotation1->type(), $annotation2->type(), "Annotation type does not match");
-    $this->assertEquals($annotation1->start(), $annotation2->start(), "Annotation start does not match");
-    $this->assertEquals($annotation1->length(), $annotation2->length(), "Annotation length does not match");
-    $this->assertEquals($annotation1->attributes(), $annotation2->attributes(), "Annotation attributes do not match");
   }
 }

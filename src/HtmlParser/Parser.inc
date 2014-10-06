@@ -1,12 +1,43 @@
 <?php
 namespace StructuredText\HtmlParser;
+use SebastianBergmann\Exporter\Exception;
 use StructuredText\Document;
 
 class Parser {
-  static protected $handlers = array();
+  protected $blockHandlers;
+  protected $annotationHandlers;
 
-  public static function addHandler($handler) {
-    static::$handlers[] = $handler;
+  public function __construct() {
+    $this->blockHandlers = array();
+    $this->annotationHandlers = array();
+  }
+
+  function addBlockHandler($handler) {
+    $this->blockHandlers[] = $handler;
+  }
+
+  function getDomParserForElement($element) {
+    foreach($this->blockHandlers as $handler) {
+      if ($handler::canParseDomElement($element)) {
+        return $handler;
+      }
+    }
+
+    return false;
+  }
+
+  function addAnnotationHandler($handler) {
+    $this->annotationHandlers[] = $handler;
+  }
+
+  function getAnnotationParserForElement($element) {
+    foreach($this->annotationHandlers as $handler) {
+      if ($handler::canParseNode($element)) {
+        return $handler;
+      }
+    }
+
+    return false;
   }
 
   public function parse($content) {
@@ -23,28 +54,28 @@ class Parser {
           $document->addBlock($block);
         }
       }
-
-
     }
 
     return $document;
   }
 
   function parseDomElement($element) {
-    $handler = static::getDomParserForElement($element);
+    $handler = $this->getDomParserForElement($element);
     if (!$handler) { throw new Exception("Cannot parse: " . $element->textContent); }
 
-    return $handler::createBlockFromDom($element);
+    return $handler::createBlockFromDom($element, $this);
   }
 
-  static function getDomParserForElement($element) {
-    foreach(static::$handlers as $handler) {
-      if ($handler::canParseDomElement($element)) {
-        return $handler;
+  function findAnnotations(\DomNode $node) {
+    $offset = 0;
+
+    foreach ($node->childNodes as $child) {
+      if ($handler = $this->getAnnotationParserForElement($child)) {
+        // print_r($handler);
       }
     }
 
-    return false;
+    return array();
   }
 
   function domForContent($content) {
