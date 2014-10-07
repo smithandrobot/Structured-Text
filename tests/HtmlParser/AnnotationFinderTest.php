@@ -1,10 +1,7 @@
 <?php
 require 'vendor/autoload.php';
 use StructuredText\HtmlParser\AnnotationFinder;
-use StructuredText\HtmlParser\Parser;
-use StructuredText\HtmlParser\Blocks\ParagraphBlockParser;
 use StructuredText\HtmlParser\Annotations\BoldAnnotationParser;
-use StructuredText\HtmlParser\Annotations\TextAnnotationParser;
 
 class AnnotationFinderTest extends PHPUnit_Framework_TestCase {
 
@@ -34,7 +31,6 @@ class AnnotationFinderTest extends PHPUnit_Framework_TestCase {
     $node = $this->getNodeForHTML('<p>hello <b>world</b></p>', 'p');
     $finder = new AnnotationFinder();
     $finder->register(BoldAnnotationParser::class);
-    $finder->register(TextAnnotationParser::class);
     $annotations = $finder->findAnnotations($node);
     $expected = new \StructuredText\Annotation('.b', 6, 5);
 
