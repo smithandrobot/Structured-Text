@@ -3,7 +3,7 @@ namespace StructuredText\HtmlParser\Blocks;
 
 interface BlockParser {
 
-  public static function canParseDomElement(\DOMNode $dom);
-  public static function createBlockFromDom(\DOMNode $dom, $parser = null);
+  public function canParseDomElement(\DOMNode $dom);
+  public function createBlockFromDom(\DOMNode $dom, $parser = null);
 
 }

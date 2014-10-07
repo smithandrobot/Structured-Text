@@ -21,7 +21,7 @@ class ParserTest extends PHPUnit_Framework_TestCase {
 
   function testParsesParagraph() {
     $parser = new Parser();
-    $parser->addBlockHandler(ParagraphBlockParser::class);
+    $parser->addBlockHandler(new ParagraphBlockParser());
     $document = $parser->parse("<p>Hello World</p>");
     $block = new Block(".paragraph", "Hello World");
 
@@ -34,7 +34,7 @@ class ParserTest extends PHPUnit_Framework_TestCase {
     $html = file_get_contents(dirname(__FILE__) . '/../resources/simple.html');
 
     $parser = new Parser();
-    $parser->addBlockHandler(ParagraphBlockParser::class);
+    $parser->addBlockHandler(new ParagraphBlockParser());
     $document = $parser->parse($html);
 
     $this->assertEquals('com.structured_text.core', $document->scope);

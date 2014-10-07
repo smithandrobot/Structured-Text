@@ -18,7 +18,7 @@ class Parser {
 
   function getDomParserForElement($element) {
     foreach($this->blockHandlers as $handler) {
-      if ($handler::canParseDomElement($element)) {
+      if ($handler->canParseDomElement($element)) {
         return $handler;
       }
     }
@@ -59,7 +59,7 @@ class Parser {
   function parseDomElement($element) {
     $handler = $this->getDomParserForElement($element);
     if ($handler) {
-      return $handler::createBlockFromDom($element, $this);
+      return $handler->createBlockFromDom($element, $this);
     }
   }
 

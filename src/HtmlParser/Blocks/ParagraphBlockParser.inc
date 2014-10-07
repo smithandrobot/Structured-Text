@@ -1,27 +1,33 @@
 <?php
 namespace StructuredText\HtmlParser\Blocks;
 use StructuredText\HtmlParser\Parser;
+use StructuredText\Block;
 
 class ParagraphBlockParser implements BlockParser {
 
-  static function register(Parser $parser) {
-    $parser->addBlockHandler(self::class);
+  function register(Parser $parser) {
+    $parser->addBlockHandler($this);
   }
 
-  static function canParseDomElement(\DOMNode $dom) {
+  function canParseDomElement(\DOMNode $dom) {
     return $dom->nodeName === 'p';
   }
 
-  static function createBlockFromDom(\DOMNode $node, $parser = null) {
+  function createBlockFromDom(\DOMNode $node, $parser = null) {
     $type = ".paragraph";
     $text = $node->textContent;
     $attributes = array();
 //    $attributes = self::findAttributes($node);
-    $annotations = $parser->findAnnotations($node);
+    $annotations = array();
     $children = array();
 //    $children = self::findChildren($node);
 
-    $block = new \StructuredText\Block($type, $text, $attributes, $annotations, $children);
+
+    if ($parser) {
+      $annotations = $parser->findAnnotations($node);
+    }
+
+    $block = new Block($type, $text, $attributes, $annotations, $children);
     return $block;
   }
 

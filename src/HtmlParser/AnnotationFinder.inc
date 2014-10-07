@@ -1,5 +1,6 @@
 <?php
 namespace StructuredText\HtmlParser;
+use SebastianBergmann\Exporter\Exception;
 use StructuredText\Annotation;
 use StructuredText\HtmlParser\Annotations\AnnotationParser;
 
@@ -21,7 +22,7 @@ class AnnotationFinder {
 
   function getHandler(\DOMNode $node) {
     foreach ($this->handlers as $handler) {
-      if ($handler::canParseNode($node)) {
+      if ($handler->canParseNode($node)) {
         return $handler;
       }
     }
@@ -38,10 +39,10 @@ class AnnotationFinder {
       $handler = $this->getHandler($child);
 
       if ($handler) {
-        $annotation = $handler::createAnnotationFromNode($child, $offset);
+        $annotation = $handler->createAnnotationFromNode($child, $offset);
         $offset += $annotation->length();
 
-        if ($handler::shouldPersist()) {
+        if ($handler->shouldPersist()) {
           $annotations[] = $annotation;
         }
       } else {

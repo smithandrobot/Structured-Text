@@ -2,38 +2,31 @@
 require 'vendor/autoload.php';
 use StructuredText\Annotation;
 use StructuredText\HtmlParser\Parser;
-use StructuredText\HtmlParser\Blocks\ParagraphBlockParser;
 use StructuredText\HtmlParser\Annotations\BoldAnnotationParser;
 
 class BoldAnnotationParserTest extends PHPUnit_Framework_TestCase {
 
   function testParsingAvailability() {
+    $parser = new BoldAnnotationParser();
     $node = $this->getNode();
 
-    $this->assertTrue(BoldAnnotationParser::canParseNode($node));
-  }
 
-  function testParserRegistration() {
-    $parser = new Parser();
-    $parser->addAnnotationHandler(BoldAnnotationParser::class);
-    $node = $this->getNode();
-
-    $handlerClass = $parser->getAnnotationParserForElement($node);
-    $handler = new $handlerClass;
-    $this->assertInstanceOf('StructuredText\HtmlParser\Annotations\BoldAnnotationParser', $handler);
+    $this->assertTrue($parser->canParseNode($node));
   }
 
   function testParsingBlankString() {
+    $parser = new BoldAnnotationParser();
     $node = $this->getNode('<b></b>');
-    $test = BoldAnnotationParser::createAnnotationFromNode($node);
+    $test = $parser->createAnnotationFromNode($node);
     $expected = new Annotation('.b', 0, 0);
 
     $this->assertTrue($expected->isEqual($test));
   }
 
   function testParsingString() {
+    $parser = new BoldAnnotationParser();
     $node = $this->getNode();
-    $test = BoldAnnotationParser::createAnnotationFromNode($node);
+    $test = $parser->createAnnotationFromNode($node);
     $expected = new Annotation('.b', 0, 11);
 
     $this->assertTrue($expected->isEqual($test));
@@ -41,7 +34,8 @@ class BoldAnnotationParserTest extends PHPUnit_Framework_TestCase {
 
   function testParsingStringAtOffset() {
     $node = $this->getNode();
-    $test = BoldAnnotationParser::createAnnotationFromNode($node, 5);
+    $parser = new BoldAnnotationParser();
+    $test = $parser->createAnnotationFromNode($node, 5);
     $expected = new Annotation('.b', 5, 11);
 
     $this->assertTrue($expected->isEqual($test));
