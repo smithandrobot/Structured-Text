@@ -1,42 +1,15 @@
 <?php
 namespace StructuredText\HtmlParser;
-use SebastianBergmann\Exporter\Exception;
-use StructuredText\Annotation;
-use StructuredText\HtmlParser\Annotations\AnnotationParser;
 
-class AnnotationFinder {
+class AnnotationFinder implements Finder {
 
-  var $handlers;
-
-  function __construct() {
-    $this->handlers = array();
-  }
-
-  function register($parser) {
-    $this->handlers[] = $parser;
-  }
-
-  function handlers() {
-    return $this->handlers;
-  }
-
-  function getHandler(\DOMNode $node) {
-    foreach ($this->handlers as $handler) {
-      if ($handler->canParseNode($node)) {
-        return $handler;
-      }
-    }
-
-    return false;
-  }
-
-  public function findAnnotations(\DOMNode $node) {
+  public function findMatches(\DOMNode $node, ParserCollection $collection) {
     $annotations = array();
     $offset = 0;
 
     foreach ($node->childNodes as $child) {
       $length = strlen($child->textContent);
-      $handler = $this->getHandler($child);
+      $handler = $collection->getParserForNode($child);
 
       if ($handler) {
         $annotation = $handler->createAnnotationFromNode($child, $offset);
