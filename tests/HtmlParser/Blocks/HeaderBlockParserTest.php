@@ -9,19 +9,45 @@ class HeaderBlockParserTest extends PHPUnit_Framework_TestCase {
     $this->assertNotNull($parser);
   }
 
-  function testAllowsParsingH1s() {
-    $node = $this->getNodeForHTML('<h1>Header</h1>', 'h1');
-    $this->assertTrue(HeaderBlockParser::canParseDomElement($node));
-  }
-
-  function testAllowsParsingH2s() {
-    $node = $this->getNodeForHTML('<h2>Header</h2>', 'h2');
-    $this->assertTrue(HeaderBlockParser::canParseDomElement($node));
+  function testAllowsParsingHeaders() {
+    for ($i = 1; $i <= 6; $i++) {
+      $node = $this->getNodeForHTML("<h$i>Header</h$i>", "h$i");
+      $this->assertTrue(HeaderBlockParser::canParseDomElement($node), "Cannot parse h$i");
+    }
   }
 
   function testDoesNotAllowParsingP() {
     $node = $this->getNodeForHTML('<p>Header</p>', 'p');
     $this->assertFalse(HeaderBlockParser::canParseDomElement($node));
+  }
+
+  function testCreatesBlockFromValidNode() {
+    $node = $this->getNodeForHTML('<h1>Hello</h1>', 'h1');
+    $block = HeaderBlockParser::createBlockFromDom($node);
+
+    $this->assertInstanceOf('StructuredText\Block', $block);
+  }
+
+  function testDoesNotCreateBlockFromInvalidNode() {
+    $node = $this->getNodeForHTML('<p>Hello</p>', 'p');
+    $block = HeaderBlockParser::createBlockFromDom($node);
+
+    $this->assertFalse($block);
+  }
+
+  function testBlockHasCorrectType() {
+    $node = $this->getNodeForHTML('<h1>Hello</h1>', 'h1');
+    $block = HeaderBlockParser::createBlockFromDom($node);
+
+    $this->assertEquals('.header', $block->type());
+  }
+
+  function testHasCorrectDepth() {
+    $depth = 3;
+    $node = $this->getNodeForHTML("<h$depth>Hello</h$depth>", "h$depth");
+    $block = HeaderBlockParser::createBlockFromDom($node);
+
+    $this->assertEquals($depth, $block->attributes()->depth, 'Header depth does not match');
   }
 
   function getNodeForHTML($html, $tag) {
