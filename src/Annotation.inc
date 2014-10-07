@@ -38,4 +38,8 @@ class Annotation {
     return $this->attributes;
   }
 
+  public function shift($offset) {
+    $this->start += $offset;
+  }
+
 }

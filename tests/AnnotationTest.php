@@ -56,4 +56,13 @@ class AnnotationTest extends PHPUnit_Framework_TestCase {
     $this->assertTrue($annotation1->isEqual($annotation2));
   }
 
+  function testShiftingAnnotation() {
+    $starting = new Annotation('foo', 0, 10);
+    $ending = new Annotation('foo', 5, 10);
+
+    $starting->shift(5);
+
+    $this->assertTrue($ending->isEqual($starting));
+  }
+
 }
