@@ -1,6 +1,6 @@
 <?php
 require 'vendor/autoload.php';
-use StructuredText\HtmlParser\HtmlAnnotationFinder;
+use StructuredText\HtmlParser\AnnotationFinder;
 use StructuredText\HtmlParser\Parser;
 use StructuredText\HtmlParser\Blocks\ParagraphBlockParser;
 use StructuredText\HtmlParser\Annotations\BoldAnnotationParser;
@@ -9,12 +9,12 @@ use StructuredText\HtmlParser\Annotations\TextAnnotationParser;
 class AnnotationFinderTest extends PHPUnit_Framework_TestCase {
 
   function testInit() {
-    $finder = new HtmlAnnotationFinder();
+    $finder = new AnnotationFinder();
     $this->assertNotNull($finder);
   }
 
   function testRegistration() {
-    $finder = new HtmlAnnotationFinder();
+    $finder = new AnnotationFinder();
     $finder->register(BoldAnnotationParser::class);
 
     $this->assertCount(1, $finder->handlers());
@@ -22,7 +22,7 @@ class AnnotationFinderTest extends PHPUnit_Framework_TestCase {
 
   function testFindingOne() {
     $node = $this->getNodeForHTML('<p><b>hello</b></p>', 'p');
-    $finder = new HtmlAnnotationFinder();
+    $finder = new AnnotationFinder();
     $finder->register(BoldAnnotationParser::class);
     $annotations = $finder->findAnnotations($node);
 
@@ -32,12 +32,12 @@ class AnnotationFinderTest extends PHPUnit_Framework_TestCase {
 
   function testFindingAtEnd() {
     $node = $this->getNodeForHTML('<p>hello <b>world</b></p>', 'p');
-    $finder = new HtmlAnnotationFinder();
+    $finder = new AnnotationFinder();
     $finder->register(BoldAnnotationParser::class);
     $finder->register(TextAnnotationParser::class);
     $annotations = $finder->findAnnotations($node);
     $expected = new \StructuredText\Annotation('.b', 6, 5);
-
+    
     $this->assertCount(1, $annotations);
     $this->assertTrue($expected->isEqual($annotations[0]));
   }

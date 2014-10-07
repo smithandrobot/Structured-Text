@@ -36,15 +36,15 @@ class AnnotationFinder {
       $handler = $this->getHandler($child);
 
       if ($handler) {
-        $annotation = $handler::createAnnotationFromNode($child, $offset - 1);
+        $annotation = $handler::createAnnotationFromNode($child, $offset);
         $offset += $annotation->length();
 
         if ($handler::shouldPersist()) {
           $annotations[] = $annotation;
         }
+      } else {
+        $offset += $length;
       }
-
-      $offset += $length;
     }
 
     return $annotations;
