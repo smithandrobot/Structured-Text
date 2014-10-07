@@ -37,7 +37,7 @@ class AnnotationFinderTest extends PHPUnit_Framework_TestCase {
     $finder->register(TextAnnotationParser::class);
     $annotations = $finder->findAnnotations($node);
     $expected = new \StructuredText\Annotation('.b', 6, 5);
-    
+
     $this->assertCount(1, $annotations);
     $this->assertTrue($expected->isEqual($annotations[0]));
   }

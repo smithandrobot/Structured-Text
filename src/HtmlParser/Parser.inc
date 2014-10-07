@@ -4,11 +4,12 @@ use StructuredText\Document;
 
 class Parser {
   protected $blockHandlers;
-  protected $annotationHandlers;
+  protected $annotationFinder;
 
   public function __construct() {
     $this->blockHandlers = array();
-    $this->annotationHandlers = array();
+
+    $this->annotationFinder = new AnnotationFinder();
   }
 
   function addBlockHandler($handler) {
@@ -26,17 +27,11 @@ class Parser {
   }
 
   function addAnnotationHandler($handler) {
-    $this->annotationHandlers[] = $handler;
+    $this->annotationFinder->register($handler);
   }
 
-  function getAnnotationParserForElement($element) {
-    foreach($this->annotationHandlers as $handler) {
-      if ($handler::canParseNode($element)) {
-        return $handler;
-      }
-    }
-
-    return false;
+  function getAnnotationParserForElement(\DOMNode $element) {
+    return $this->annotationFinder->getHandler($element);
   }
 
   public function parse($content) {
@@ -69,15 +64,7 @@ class Parser {
   }
 
   function findAnnotations(\DomNode $node) {
-    $offset = 0;
-
-    foreach ($node->childNodes as $child) {
-      if ($handler = $this->getAnnotationParserForElement($child)) {
-        print_r($handler);
-      }
-    }
-
-    return array();
+    return $this->annotationFinder->findAnnotations($node);
   }
 
   function domForContent($content) {

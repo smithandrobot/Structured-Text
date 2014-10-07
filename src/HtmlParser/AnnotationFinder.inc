@@ -25,6 +25,8 @@ class AnnotationFinder {
         return $handler;
       }
     }
+
+    return false;
   }
 
   public function findAnnotations(\DOMNode $node) {
