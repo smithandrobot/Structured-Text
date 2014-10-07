@@ -12,7 +12,7 @@ class ParagraphBlockParser implements BlockParser {
     return $dom->nodeName === 'p';
   }
 
-  static function createBlockFromDom(\DOMNode $node, $parser) {
+  static function createBlockFromDom(\DOMNode $node, $parser = null) {
     $type = ".paragraph";
     $text = $node->textContent;
     $attributes = array();
