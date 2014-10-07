@@ -1,6 +1,5 @@
 <?php
 namespace StructuredText\HtmlParser;
-use SebastianBergmann\Exporter\Exception;
 use StructuredText\Document;
 
 class Parser {
@@ -51,7 +50,10 @@ class Parser {
       foreach($bodies as $body) {
         foreach ($body->childNodes as $child) {
           $block = $this->parseDomElement($child);
-          $document->addBlock($block);
+
+          if ($block) {
+            $document->addBlock($block);
+          }
         }
       }
     }
@@ -61,9 +63,9 @@ class Parser {
 
   function parseDomElement($element) {
     $handler = $this->getDomParserForElement($element);
-    if (!$handler) { throw new Exception("Cannot parse: " . $element->textContent); }
-
-    return $handler::createBlockFromDom($element, $this);
+    if ($handler) {
+      return $handler::createBlockFromDom($element, $this);
+    }
   }
 
   function findAnnotations(\DomNode $node) {
@@ -71,7 +73,7 @@ class Parser {
 
     foreach ($node->childNodes as $child) {
       if ($handler = $this->getAnnotationParserForElement($child)) {
-        // print_r($handler);
+        print_r($handler);
       }
     }
 

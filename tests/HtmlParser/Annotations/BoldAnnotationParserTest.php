@@ -7,18 +7,6 @@ use StructuredText\HtmlParser\Annotations\BoldAnnotationParser;
 
 class BoldAnnotationParserTest extends PHPUnit_Framework_TestCase {
 
-//  function xtestInit() {
-//    $html = "<p>hello <b>world</b></p>";
-//    $node = $this->getNodeForHTML($html, 'p');
-//    $parser = new Parser();
-//
-//    $annotations = $parser->findAnnotations($node);
-//    $annotation = new Annotation(".bold", 6, 5);
-//
-//    $this->assertCount(1, $annotations);
-//    $this->assertTrue($annotation->isEqual($annotations[0]));
-//  }
-
   function testParsingAvailability() {
     $node = $this->getNode();
 
@@ -58,6 +46,8 @@ class BoldAnnotationParserTest extends PHPUnit_Framework_TestCase {
 
     $this->assertTrue($expected->isEqual($test));
   }
+
+
 
   function getNode($html = '<b>Hello World</b>', $tag = 'b') {
     $dom = new DOMDocument();

@@ -17,7 +17,7 @@ class ParagraphBlockParser implements BlockParser {
     $text = $node->textContent;
     $attributes = array();
 //    $attributes = self::findAttributes($node);
-    $annotations = array(); // $parser->findAnnotations($node);
+    $annotations = $parser->findAnnotations($node);
     $children = array();
 //    $children = self::findChildren($node);
 
@@ -34,5 +34,3 @@ class ParagraphBlockParser implements BlockParser {
   }
 
 }
-
-//\StructuredText\HtmlParser\Parser::addBlockHandler(ParagraphBlockParser::class);
