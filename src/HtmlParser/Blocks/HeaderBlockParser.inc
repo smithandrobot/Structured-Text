@@ -16,9 +16,10 @@ class HeaderBlockParser implements BlockParser {
     }
 
     $type = '.header';
+    $text = $dom->textContent;
     $attributes = self::findAttributes($dom);
 
-    $block = new Block($type, null, $attributes);
+    $block = new Block($type, $text, $attributes);
 
     return $block;
   }

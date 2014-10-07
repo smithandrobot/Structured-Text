@@ -42,6 +42,13 @@ class HeaderBlockParserTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals('.header', $block->type());
   }
 
+  function testBlockHasCorrectText() {
+    $node = $this->getNodeForHTML('<h1>Hello</h1>', 'h1');
+    $block = HeaderBlockParser::createBlockFromDom($node);
+
+    $this->assertEquals('Hello', $block->text());
+  }
+
   function testHasCorrectDepth() {
     $depth = 3;
     $node = $this->getNodeForHTML("<h$depth>Hello</h$depth>", "h$depth");
