@@ -3,36 +3,32 @@ namespace StructuredText\HtmlParser;
 use StructuredText\Document;
 
 class Parser {
-  protected $blockHandlers;
   protected $annotationFinder;
+  protected $annotationParsers;
+  protected $blockFinder;
+  protected $blockParsers;
 
   public function __construct() {
-    $this->blockHandlers = array();
-
-    $annotationFinder = new AnnotationFinder();
-    $this->annotationFinder = new ParserCollection($annotationFinder);
-  }
-
-  function addBlockHandler($handler) {
-    $this->blockHandlers[] = $handler;
-  }
-
-  function getDomParserForElement($element) {
-    foreach($this->blockHandlers as $handler) {
-      if ($handler->canParseDomElement($element)) {
-        return $handler;
-      }
-    }
-
-    return false;
+    $this->annotationFinder = new AnnotationFinder();
+    $this->annotationParsers = new ParserCollection($this->annotationFinder);
+    $this->blockFinder = new BlockFinder();
+    $this->blockParsers = new ParserCollection($this->blockFinder);
   }
 
   function addAnnotationHandler($handler) {
-    $this->annotationFinder->registerParser($handler);
+    $this->annotationParsers->registerParser($handler);
   }
 
-  function getAnnotationParserForElement(\DOMNode $element) {
-    return $this->annotationFinder->getHandler($element);
+  function annotationParser() {
+    return $this->annotationParsers;
+  }
+
+  function addBlockHandler($handler) {
+    $this->blockParsers->registerParser($handler);
+  }
+
+  function blockParsers() {
+    return $this->blockParsers;
   }
 
   public function parse($content) {
@@ -58,14 +54,14 @@ class Parser {
   }
 
   function parseDomElement($element) {
-    $handler = $this->getDomParserForElement($element);
+    $handler = $this->blockParsers()->getParserForNode($element);
     if ($handler) {
       return $handler->createBlockFromDom($element, $this);
     }
   }
 
   function findAnnotations(\DomNode $node) {
-    return $this->annotationFinder->findMatches($node);
+    return $this->annotationParsers->findMatches($node);
   }
 
   function domForContent($content) {
