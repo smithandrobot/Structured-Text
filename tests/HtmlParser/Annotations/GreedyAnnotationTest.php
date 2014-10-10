@@ -28,12 +28,6 @@ class GreedyAnnotationParserTest extends PHPUnit_Framework_TestCase {
     $this->assertTrue($expected->isEqual($actual));
   }
 
-  function testShouldPersist() {
-    $parser = new GreedyAnnotationParser();
-    $this->assertTrue($parser->shouldPersist());
-  }
-
-
   function getNode($tag) {
     $html = "<$tag>Hello</$tag>";
     $dom = new DOMDocument();

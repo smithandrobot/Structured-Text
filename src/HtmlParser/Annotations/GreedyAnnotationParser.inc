@@ -16,8 +16,4 @@ class GreedyAnnotationParser implements AnnotationParser {
     return new Annotation($type, $offset, $length);
   }
 
-  public function shouldPersist() {
-    return true;
-  }
-
 }

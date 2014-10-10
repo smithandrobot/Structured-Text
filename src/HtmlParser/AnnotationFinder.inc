@@ -40,11 +40,7 @@ class AnnotationFinder implements Finder {
     $handler = $collection->getParserForNode($node);
 
     if ($handler) {
-      $annotation = $handler->createAnnotationFromNode($node, $offset);
-    }
-
-    if ($annotation && $handler->shouldPersist()) {
-      return $annotation;
+      return $handler->createAnnotationFromNode($node, $offset);
     }
 
     return false;

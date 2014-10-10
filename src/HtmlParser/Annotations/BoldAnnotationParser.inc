@@ -20,8 +20,4 @@ class BoldAnnotationParser implements AnnotationParser {
     return new \StructuredText\Annotation($type, $start, $length);
   }
 
-  public function shouldPersist() {
-    return true;
-  }
-
 }
