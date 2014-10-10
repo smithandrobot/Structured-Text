@@ -8,8 +8,8 @@ class AnnotationFinder implements Finder {
     $offset = 0;
 
     foreach ($node->childNodes as $child) {
-      $new_annotations = $this->getAnnotationsFromAnnotationNode($child, $collection, $offset);
-      $annotations = array_merge($annotations, $new_annotations);
+      $subAnnotations = $this->getAnnotationsFromAnnotationNode($child, $collection, $offset);
+      $annotations = array_merge($annotations, $subAnnotations);
       $offset += strlen($child->textContent);
     }
 
@@ -22,14 +22,8 @@ class AnnotationFinder implements Finder {
     }
 
     $annotations = array();
-    $handler = $collection->getParserForNode($node);
-
-    if ($node->nodeName !== '#text' && $handler) {
-      $annotation = $handler->createAnnotationFromNode($node, $offset);
-
-      if ($annotation && $handler->shouldPersist()) {
-        $annotations[] = $annotation;
-      }
+    if ($annotation = $this->getAnnotationForNode($node, $collection, $offset)) {
+      $annotations[] = $annotation;
     }
 
     foreach ($node->childNodes as $child) {
@@ -40,6 +34,20 @@ class AnnotationFinder implements Finder {
     }
 
     return $annotations;
+  }
+
+  function getAnnotationForNode(\DOMNode $node, ParserCollection $collection, $offset) {
+    $handler = $collection->getParserForNode($node);
+
+    if ($handler) {
+      $annotation = $handler->createAnnotationFromNode($node, $offset);
+    }
+
+    if ($annotation && $handler->shouldPersist()) {
+      return $annotation;
+    }
+
+    return false;
   }
 
 }
