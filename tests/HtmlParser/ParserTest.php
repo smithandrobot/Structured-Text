@@ -17,6 +17,7 @@ class ParserTest extends PHPUnit_Framework_TestCase {
     $result = $parser->parse("");
 
     $this->assertNotNull($result);
+    $this->assertCount(0, $result->blocks);
   }
 
   function testParsesParagraph() {
