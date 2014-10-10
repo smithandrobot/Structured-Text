@@ -1,7 +1,6 @@
 <?php
 require 'vendor/autoload.php';
 use StructuredText\Annotation;
-use StructuredText\HtmlParser\Parser;
 use StructuredText\HtmlParser\Annotations\BoldAnnotationParser;
 
 class BoldAnnotationParserTest extends PHPUnit_Framework_TestCase {
@@ -40,8 +39,6 @@ class BoldAnnotationParserTest extends PHPUnit_Framework_TestCase {
 
     $this->assertTrue($expected->isEqual($test));
   }
-
-
 
   function getNode($html = '<b>Hello World</b>', $tag = 'b') {
     $dom = new DOMDocument();
