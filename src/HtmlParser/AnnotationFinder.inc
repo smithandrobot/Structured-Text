@@ -8,10 +8,9 @@ class AnnotationFinder implements Finder {
     $offset = 0;
 
     foreach ($node->childNodes as $child) {
-      $length = strlen($child->textContent);
       $handler = $collection->getParserForNode($child);
 
-      if ($handler) {
+      if ($child->nodeName !== '#text' && $handler) {
         $annotation = $handler->createAnnotationFromNode($child, $offset);
         $offset += $annotation->length();
 
@@ -19,6 +18,7 @@ class AnnotationFinder implements Finder {
           $annotations[] = $annotation;
         }
       } else {
+        $length = strlen($child->textContent);
         $offset += $length;
       }
     }
