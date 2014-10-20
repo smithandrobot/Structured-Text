@@ -9,7 +9,8 @@ use StructuredText\HtmlParser\Annotations\GreedyAnnotationParser;
 class AnnotationFinderTest extends PHPUnit_Framework_TestCase {
 
   function testInit() {
-    $finder = new AnnotationFinder();
+    $collectionMock = $this->getMock(ParserCollection::class);
+    $finder = new AnnotationFinder($collectionMock);
     $this->assertNotNull($finder);
   }
 
@@ -20,8 +21,8 @@ class AnnotationFinderTest extends PHPUnit_Framework_TestCase {
       ->will($this->returnValue(new BoldAnnotationParser()));
     $annotion = new Annotation('.b', 0, 5);
 
-    $finder = new AnnotationFinder();
-    $annotations = $finder->findMatches($node, $collectionMock);
+    $finder = new AnnotationFinder($collectionMock);
+    $annotations = $finder->findMatches($node);
 
     $this->assertCount(1, $annotations);
     $this->assertTrue($annotion->isEqual($annotations[0]));
@@ -33,8 +34,8 @@ class AnnotationFinderTest extends PHPUnit_Framework_TestCase {
     $collectionMock->method('getParserForNode')
       ->will($this->returnValue(new BoldAnnotationParser()));
 
-    $finder = new AnnotationFinder();
-    $annotations = $finder->findMatches($node, $collectionMock);
+    $finder = new AnnotationFinder($collectionMock);
+    $annotations = $finder->findMatches($node);
     $expected = new Annotation('.b', 6, 5);
 
     $this->assertCount(1, $annotations);
@@ -47,8 +48,8 @@ class AnnotationFinderTest extends PHPUnit_Framework_TestCase {
     $collectionMock->method('getParserForNode')
       ->will($this->returnValue(new BoldAnnotationParser()));
 
-    $finder = new AnnotationFinder();
-    $annotations = $finder->findMatches($node, $collectionMock);
+    $finder = new AnnotationFinder($collectionMock);
+    $annotations = $finder->findMatches($node);
 
     $this->assertCount(2, $annotations);
   }
@@ -62,8 +63,8 @@ class AnnotationFinderTest extends PHPUnit_Framework_TestCase {
     $annotation1 = new Annotation('*b', 0, 11);
     $annotation2 = new Annotation('*i', 6, 5);
 
-    $finder = new AnnotationFinder();
-    $annotations = $finder->findMatches($node, $collectionMock);
+    $finder = new AnnotationFinder($collectionMock);
+    $annotations = $finder->findMatches($node);
 
     $this->assertCount(2, $annotations);
     $this->assertTrue($annotation1->isEqual($annotations[0]));
