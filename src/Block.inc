@@ -44,4 +44,8 @@ class Block {
   }
 
 
+  public function newBlockWithChildren(array $children) {
+    return new Block($this->type, $this->text, $this->attributes, $this->annotations, $children);
+  }
+
 }
