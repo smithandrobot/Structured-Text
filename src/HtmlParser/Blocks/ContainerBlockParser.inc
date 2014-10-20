@@ -11,9 +11,8 @@ class ContainerBlockParser implements BlockParser {
 
   public function createBlockFromDom(\DOMNode $dom, $parser = null) {
     $type = '.container';
-    $length = strlen($dom->textContent);
 
-    return new Block($type, $dom->textContent);
+    return new Block($type);
   }
 
 }

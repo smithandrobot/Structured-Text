@@ -26,7 +26,7 @@ class ContainerBlockParserTest extends PHPUnit_Framework_TestCase {
   function testCanParseDivCorrectly() {
     $node = $this->getNodeForHTML('<div>hello</div>', 'div');
     $parser = new ContainerBlockParser();
-    $expected = new Block('.container', 'hello');
+    $expected = new Block('.container');
     $actual = $parser->createBlockFromDom($node);
 
     $this->assertTrue($expected->isEqual($actual));
