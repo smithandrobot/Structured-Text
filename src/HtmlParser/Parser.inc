@@ -9,10 +9,10 @@ class Parser {
   protected $blockParsers;
 
   public function __construct() {
-    $this->annotationFinder = new AnnotationFinder();
-    $this->annotationParsers = new ParserCollection($this->annotationFinder);
-    $this->blockFinder = new BlockFinder();
-    $this->blockParsers = new ParserCollection($this->blockFinder);
+    $this->annotationParsers = new ParserCollection();
+    $this->annotationFinder = new AnnotationFinder($this->annotationParsers);
+    $this->blockParsers = new ParserCollection();
+    $this->blockFinder = new BlockFinder($this->blockParsers);
   }
 
   function addAnnotationHandler($handler) {
@@ -41,7 +41,7 @@ class Parser {
 
       foreach($bodies as $body) {
         foreach ($body->childNodes as $child) {
-          $block = $this->parseDomElement($child);
+          $block = $this->blockFinder->findMatches($child);
 
           if ($block) {
             $document->addBlock($block);
@@ -61,7 +61,7 @@ class Parser {
   }
 
   function findAnnotations(\DomNode $node) {
-    return $this->annotationParsers->findMatches($node);
+    return $this->annotationFinder->findMatches($node);
   }
 
   function domForContent($content) {

@@ -1,14 +1,20 @@
 <?php
 namespace StructuredText\HtmlParser;
 
-class AnnotationFinder implements Finder {
+class AnnotationFinder {
 
-  public function findMatches(\DOMNode $node, ParserCollection $collection) {
+  protected $parsers;
+
+  public function __construct(ParserCollection $parserCollection) {
+    $this->parsers = $parserCollection;
+  }
+
+  public function findMatches(\DOMNode $node) {
     $annotations = array();
     $offset = 0;
 
     foreach ($node->childNodes as $child) {
-      $subAnnotations = $this->getAnnotationsFromAnnotationNode($child, $collection, $offset);
+      $subAnnotations = $this->getAnnotationsFromAnnotationNode($child, $offset);
       $annotations = array_merge($annotations, $subAnnotations);
       $offset += strlen($child->textContent);
     }
@@ -16,18 +22,18 @@ class AnnotationFinder implements Finder {
     return $annotations;
   }
 
-  protected function getAnnotationsFromAnnotationNode(\DOMNode $node, ParserCollection $collection, $offset = 0) {
+  protected function getAnnotationsFromAnnotationNode(\DOMNode $node, $offset = 0) {
     if ($node->nodeName === '#text') {
       return array();
     }
 
     $annotations = array();
-    if ($annotation = $this->getAnnotationForNode($node, $collection, $offset)) {
+    if ($annotation = $this->getAnnotationForNode($node, $offset)) {
       $annotations[] = $annotation;
     }
 
     foreach ($node->childNodes as $child) {
-      $subAnnotations = $this->getAnnotationsFromAnnotationNode($child, $collection, $offset);
+      $subAnnotations = $this->getAnnotationsFromAnnotationNode($child, $offset);
       $annotations = array_merge($annotations, $subAnnotations);
 
       $offset += strlen($child->textContent);
@@ -36,8 +42,8 @@ class AnnotationFinder implements Finder {
     return $annotations;
   }
 
-  function getAnnotationForNode(\DOMNode $node, ParserCollection $collection, $offset) {
-    $handler = $collection->getParserForNode($node);
+  function getAnnotationForNode(\DOMNode $node, $offset) {
+    $handler = $this->parsers->getParserForNode($node);
 
     if ($handler) {
       return $handler->createAnnotationFromNode($node, $offset);

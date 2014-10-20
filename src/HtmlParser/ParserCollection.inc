@@ -4,11 +4,9 @@ namespace StructuredText\HtmlParser;
 class ParserCollection {
 
   protected $parsers;
-  protected $finder;
 
-  public function __construct(Finder $finder = null) {
+  public function __construct() {
     $this->parsers = array();
-    $this->finder = $finder;
   }
 
   public function registerParser($parser) {
@@ -28,9 +26,5 @@ class ParserCollection {
     }
 
     return false;
-  }
-
-  public function findMatches(\DOMNode $node) {
-    $this->finder->findMatches($node, $this);
   }
 }
