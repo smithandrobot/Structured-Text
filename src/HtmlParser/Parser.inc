@@ -8,10 +8,17 @@ class Parser {
   protected $blockFinder;
   protected $blockParsers;
 
-  public function __construct() {
-    $this->annotationParsers = new ParserCollection();
+  public static function configuredParser() {
+    $annotationCollection = ParserCollection::configuredAnnotationParserCollection();
+    $blockCollection = ParserCollection::configuredBlockParserCollection();
+
+    return new Parser($annotationCollection, $blockCollection);
+  }
+
+  public function __construct($annotationCollection = null, $blockCollection = null) {
+    $this->annotationParsers = $annotationCollection? $annotationCollection : new ParserCollection();
     $this->annotationFinder = new AnnotationFinder($this->annotationParsers);
-    $this->blockParsers = new ParserCollection();
+    $this->blockParsers = $blockCollection? $blockCollection : new ParserCollection();
     $this->blockFinder = new BlockFinder($this->blockParsers);
   }
 

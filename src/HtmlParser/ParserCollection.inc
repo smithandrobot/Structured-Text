@@ -1,6 +1,9 @@
 <?php
 namespace StructuredText\HtmlParser;
 
+use StructuredText\HtmlParser\Annotations;
+use StructuredText\HtmlParser\Blocks;
+
 class ParserCollection {
 
   protected $parsers;
@@ -26,5 +29,22 @@ class ParserCollection {
     }
 
     return false;
+  }
+
+
+  public static function configuredBlockParserCollection() {
+    $collection = new ParserCollection();
+    $collection->registerParser(new Blocks\ContainerBlockParser());
+    $collection->registerParser(new Blocks\HeaderBlockParser());
+    $collection->registerParser(new Blocks\ParagraphBlockParser());
+
+    return $collection;
+  }
+
+  public static function configuredAnnotationParserCollection() {
+    $collection = new ParserCollection();
+    $collection->registerParser(new Annotations\BoldAnnotationParser());
+
+    return $collection;
   }
 }
