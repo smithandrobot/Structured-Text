@@ -1,7 +1,7 @@
 <?php
 namespace StructuredText;
 
-class Annotation {
+class Annotation implements \JsonSerializable {
 
   protected $type;
   protected $start;
@@ -40,6 +40,15 @@ class Annotation {
 
   public function shift($offset) {
     $this->start += $offset;
+  }
+
+  public function jsonSerialize() {
+    return array(
+      'type' => $this->type,
+      'start' => $this->start,
+      'length' => $this->length,
+      'attributes' => $this->attributes,
+    );
   }
 
 }

@@ -1,6 +1,6 @@
 <?php namespace StructuredText;
 
-class Document {
+class Document implements \JsonSerializable {
 
   var $scope;
   var $blocks;
@@ -12,6 +12,13 @@ class Document {
 
   public function addBlock($block) {
     $this->blocks[] = $block;
+  }
+
+  public function jsonSerialize() {
+    return array(
+      'scope' => $this->scope,
+      'blocks' => $this->blocks,
+    );
   }
 
 }
