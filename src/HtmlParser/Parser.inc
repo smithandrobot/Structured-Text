@@ -60,13 +60,6 @@ class Parser {
     return $document;
   }
 
-  function parseDomElement($element) {
-    $handler = $this->blockParsers()->getParserForNode($element);
-    if ($handler) {
-      return $handler->createBlockFromDom($element, $this);
-    }
-  }
-
   function findAnnotations(\DomNode $node) {
     return $this->annotationFinder->findMatches($node);
   }
