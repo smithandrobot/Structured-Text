@@ -1,0 +1,46 @@
+{
+    "scope": "com.structured_text.core",
+    "blocks": [
+        {
+            "type": ".container",
+            "children": [
+                {
+                    "type": ".header",
+                    "text": "lorem"
+                },
+                {
+                    "type": ".paragraph",
+                    "text": "ipsum"
+                },
+                {
+                    "type": ".paragraph",
+                    "text": "foobar!",
+                    "annotations": [
+                        {
+                            "type": ".bold",
+                            "start": 0,
+                            "length": 7
+                        }
+                    ]
+                },
+                {
+                    "type": ".header",
+                    "text": "Read more here",
+                    "attributes": {
+                        "depth": 2
+                    },
+                    "annotations": [
+                        {
+                            "type": ".link",
+                            "start": 10,
+                            "length": 4,
+                            "attributes": {
+                                "location": "\/readmore"
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
