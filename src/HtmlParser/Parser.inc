@@ -64,7 +64,7 @@ class Parser {
     return $this->annotationFinder->findMatches($node);
   }
 
-  function domForContent($content) {
+  private function domForContent($content) {
     $document = new \DOMDocument();
     $document->loadHTML($content);
     return $document;
