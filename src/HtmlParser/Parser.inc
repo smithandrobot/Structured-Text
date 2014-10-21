@@ -48,7 +48,7 @@ class Parser {
 
       foreach($bodies as $body) {
         foreach ($body->childNodes as $child) {
-          $block = $this->blockFinder->findMatches($child);
+          $block = $this->blockFinder->findMatches($child, $this);
 
           if ($block) {
             $document->addBlock($block);

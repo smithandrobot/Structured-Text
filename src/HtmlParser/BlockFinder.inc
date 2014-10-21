@@ -9,35 +9,38 @@ class BlockFinder {
     $this->parsers = $parserCollection;
   }
 
-  public function findMatches(\DOMNode $node) {
-    return $this->getBlockForNode($node);
+  public function findMatches(\DOMNode $node, $parser = null) {
+    return $this->getBlocksForNode($node, $parser);
   }
 
-  protected function getChildBlocks(\DOMNode $node) {
+  protected function getChildBlocks(\DOMNode $node, $parser = null) {
     $blocks = array();
     foreach ($node->childNodes as $child) {
-      if ($block = $this->getBlockForNode($child)) {
-        $blocks[] = $block;
+      if ($new_blocks = $this->getBlocksForNode($child, $parser)) {
+        $blocks = array_merge($blocks, $new_blocks);
       }
     }
 
     return $blocks;
   }
 
-  protected function getBlockForNode(\DOMNode $node) {
+  protected function getBlocksForNode(\DOMNode $node, $parser = null) {
     if ($node->nodeName == '#text') {
       return false;
     }
 
     if ($handler = $this->parsers->getParserForNode($node)) {
-      $block = $handler->createBlockFromDom($node);
+      $block = $handler->createBlockFromDom($node, $parser);
 
       if ($node->childNodes) {
-        $childrenBlocks = $this->getChildBlocks($node);
+        $childrenBlocks = $this->getChildBlocks($node, $parser);
         $block = $block->newBlockWithChildren($childrenBlocks);
       }
 
-      return $block;
+      return array($block);
+    } else {
+      $blocks = $this->getChildBlocks($node, $parser);
+      return $blocks;
     }
 
     return false;
