@@ -5,7 +5,7 @@ use StructuredText\Block;
 
 class ContainerBlockParser implements BlockParser {
 
-  public function canParseDomElement(\DOMNode $dom) {
+  public function canParseDomNode(\DOMNode $dom) {
     return $dom->nodeName === 'div';
   }
 

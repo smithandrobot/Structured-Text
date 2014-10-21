@@ -7,7 +7,7 @@ class ParagraphBlockParser extends ContentBlock {
     return '.paragraph';
   }
 
-  function canParseDomElement(\DOMNode $dom) {
+  function canParseDomNode(\DOMNode $dom) {
     return $dom->nodeName === 'p';
   }
 

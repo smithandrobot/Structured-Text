@@ -7,7 +7,7 @@ abstract class ContentBlock implements BlockParser {
   abstract function typeString();
 
   function createBlockFromDom(\DOMNode $node, $parser = null) {
-    if (!$this->canParseDomElement($node)) {
+    if (!$this->canParseDomNode($node)) {
       return false;
     }
 

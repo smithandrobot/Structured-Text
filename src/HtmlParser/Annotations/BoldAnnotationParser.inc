@@ -8,7 +8,7 @@ class BoldAnnotationParser implements AnnotationParser {
     $parser->addAnnotationHandler($this);
   }
 
-  public function canParseNode(\DOMNode $node) {
+  public function canParseDomNode(\DOMNode $node) {
     return $node->nodeName === 'b';
   }
 

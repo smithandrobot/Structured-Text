@@ -5,7 +5,7 @@ use StructuredText\HtmlParser\Parser;
 
 class GreedyAnnotationParser implements AnnotationParser {
 
-  public function canParseNode(\DOMNode $node) {
+  public function canParseDomNode(\DOMNode $node) {
     return true;
   }
 

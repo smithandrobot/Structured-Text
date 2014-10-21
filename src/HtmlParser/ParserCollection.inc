@@ -23,7 +23,7 @@ class ParserCollection {
   // TODO: who should win?
   public function getParserForNode(\DOMNode $node) {
     foreach ($this->parsers as $parser) {
-      if ($parser->canParseDomElement($node)) {
+      if ($parser->canParseDomNode($node)) {
         return $parser;
       }
     }

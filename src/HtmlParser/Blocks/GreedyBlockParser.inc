@@ -4,7 +4,7 @@ use StructuredText\Block;
 
 class GreedyBlockParser implements BlockParser {
 
-  public function canParseDomElement(\DOMNode $node) {
+  public function canParseDomNode(\DOMNode $node) {
     return true;
   }
 
