@@ -44,6 +44,7 @@ class ParserCollection {
   public static function configuredAnnotationParserCollection() {
     $collection = new ParserCollection();
     $collection->registerParser(new Annotations\BoldAnnotationParser());
+    $collection->registerParser(new Annotations\LinkAnnotationParser());
 
     return $collection;
   }
